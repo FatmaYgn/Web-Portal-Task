@@ -18,6 +18,43 @@ In particular, the web page should:
 - Implement auto-refresh functionality which requests the data from above every 60 minutes and updates the table with the new data without reloading the web page. The data should be fetched via PHP
 - Outside the table, create a button that opens a modal. In this modal, there should be another button that allows you to select any image from the file system. When you have selected the image, it will be displayed in the modal
   - Note that this is not linked to the data from above
+ 
+# Aim
+This project aims to create a web page that connects to a remote API, downloads a dataset, and displays it in a table. The table will allow basic search and filter functions, and the page will also support auto-refreshing the data every 60 minutes without reloading. Additionally, the project includes a modal for selecting and displaying an image from the file system.
+
+Here are the detailed steps and functionalities of the project:
+
+# Functionalities:
+  <ol>
+    <li>Fetch Data from Remote API:
+      <ul>
+        <li>The project makes a POST request to https://api.baubuddy.de/index.php/login to obtain an access token.</li>
+        <li>Using the access token, it makes another request to https://api.baubuddy.de/dev/index.php/v1/tasks/select to fetch task data.</li>
+      </ul>
+    </li>
+    <li>Display Data in a Table:
+      <ul>
+        <li>The fetched data includes task details such as task, title, description, and colorCode.</li>
+        <li>These details are displayed in an HTML table, where the colorCode is represented with the corresponding background color.</li>
+      </ul>
+    </li>
+    <li>Search and Filter Functionality:
+      <ul>
+        <li>An input field allows users to search and filter the displayed data based on any text match within the table.</li>
+      </ul>
+    </li>
+    <li>Auto-Refresh:
+    <ul>
+      <li>The table data is refreshed automatically every 60 minutes by re-fetching data from the API via PHP without reloading the page.</li>
+    </ul>
+    </li>
+    <li>Image Selection and Display in a Modal:
+    <ul>
+      <li>A button opens a modal window.</li>
+      <li>Inside the modal, another button allows users to select an image file from their system, which is then displayed within the modal.</li>
+    </ul>
+    </li>
+  </ol>
 
 # Authorization
 
