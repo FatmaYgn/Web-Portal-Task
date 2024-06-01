@@ -47,5 +47,65 @@
             <button onclick="closeModal()">Close</button>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            fetchData();
+            setInterval(fetchData, 3600000); //Auto refresh every 60 minutes
+
+            document.getElementById('imageInput').addEventListener('change', function(event){
+                const file=event.target.files[0];
+                const reader=new FileReader();
+                reader.onload=function(e){
+                    const image= document.getElementById('selectedImage');
+                    image.src = e.target.result;
+                    image.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+        function fetchData() {
+            fetch('fetch_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Debug: Log the data to see the response structure
+                    if (data.error) {
+                        console.error('Error:', data.error);
+                        return;
+                    }
+                    const tbody = document.querySelector('#taskTable tbody');
+                    tbody.innerHTML = '';
+                    data.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.task}</td>
+                            <td>${item.title}</td>
+                            <td>${item.description}</td>
+                            <td><div class="color-code" style="background-color:${item.colorCode};"></div></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function searchTable() {
+            const input = document.getElementById('search');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('taskTable');
+            const trs = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < trs.length; i++) {
+                trs[i].style.display = trs[i].innerText.toLowerCase().includes(filter) ? '' : 'none';
+            }
+        }
+
+        function openModal() {
+            document.getElementById('myModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
